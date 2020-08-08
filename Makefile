@@ -1,37 +1,37 @@
-CC = g++
+CC = /usr/local/bin/gcc
+CXX = /usr/local/bin/g++
 OBJS = main.o calc_graph.o Edges.o Exeptions.o Gcalc.o Graph.o Parser.o Vertex.o
 EXEC = gcalc
-DEBUG_FLAG = -pedantic-errors -DNDEBUG
-COMP_FLAG = -std=c++11 -Wall -Werror
+COMP_FLAG = -std=c++11 -Wall -Werror -pedantic-errors -DNDEBUG
 
 $(EXEC) : $(OBJS)
-	$(CC) $(DEBUF_FLAG) $(OBJS) -O $@
+	$(CXX) $(OBJS) -O $@
 
 main.o : main.cpp Vertex.h Exeptions.h Edges.h Graph.h Gcalc.h Parser.h
-	$(CC) -c $(DEBUF_FLAG) $(COMP_FLAG) $*.cpp
+	$(CXX) -c $(COMP_FLAG) $*.cpp
 
 calc_graph.o : calc_graph.cpp calc_graph.h Parser.h Gcalc.h Graph.h Vertex.h Exeptions.h Edges.h
-	$(CC) -c $(DEBUF_FLAG) %(COMP_FLAG) $*.cpp
+	$(CXX) -c $(COMP_FLAG) $*.cpp
 
 Edges.o : Edges.cpp Edges.h
-	$(CC) -c $(DEBUF_FLAG) %(COMP_FLAG) $*.cpp
+	$(CXX) -c $(COMP_FLAG) $*.cpp
 
 Exeptions.o : Exeptions.cpp Exeptions.h
-	$(CC) -c $(DEBUF_FLAG) %(COMP_FLAG) $*.cpp
+	$(CXX) -c $(COMP_FLAG) $*.cpp
 
 Gcalc.o : Gcalc.cpp Gcalc.h Graph.h Vertex.h Exeptions.h Edges.h
-	$(CC) -c $(DEBUF_FLAG) %(COMP_FLAG) $*.cpp
+	$(CXX) -c $(COMP_FLAG) $*.cpp
 
 Graph.o: Graph.cpp Graph.h Vertex.h Exeptions.h Edges.h
-	$(CC) -c $(DEBUF_FLAG) %(COMP_FLAG) $*.cpp
+	$(CXX) -c $(COMP_FLAG) $*.cpp
 
 Parser.o: Parser.cpp Parser.h Gcalc.h Graph.h Vertex.h Exeptions.h Edges.h
-	$(CC) -c $(DEBUF_FLAG) %(COMP_FLAG) $*.cpp
+	$(CXX) -c $(COMP_FLAG) $*.cpp
 
 Vertex.o: Vertex.cpp Vertex.h Exeptions.h
-	$(CC) -c $(DEBUF_FLAG) %(COMP_FLAG) $*.cpp
+	$(CXX) -c $(COMP_FLAG) $*.cpp
 
-Clean:
+clean:
 	rm -f $(OBJS) $(EXEC) $*.TMP
 
 tar:
@@ -41,4 +41,4 @@ tar:
 libgraph.a : $(OBJS) 
 	ar -rs $@ $^
 	swig -python calc_graph.i -o graph_wrap.c
-	g++ -DNDEBUG --pedantic-errors -Wall -Werror -I/usr/local/include/python3.6m -fPIC -shared graph_wrap.c libgraph.a -o _graph.so
+	$(CXX) -DNDEBUG --pedantic-errors -Wall -Werror -I/usr/local/include/python3.6m -fPIC -shared graph_wrap.c libgraph.a -o _graph.so
